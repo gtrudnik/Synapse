@@ -4,7 +4,7 @@ from src.database.core import get_db
 from .schemas import UserCreate, UserShort, UserLogin
 from .service import UserService
 
-router = APIRouter(prefix="/users", tags=["users"])
+router = APIRouter(tags=["users"])
 
 @router.post("/register", response_model=UserShort)
 def register(user_in: UserCreate, db: Session = Depends(get_db)):
