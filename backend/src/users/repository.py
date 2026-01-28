@@ -26,3 +26,13 @@ class UserRepository:
         self.db.commit()
         self.db.refresh(db_user)
         return db_user
+
+    def update_avatar(self, user_id: int, avatar_url: str) -> User:
+        user = self.get_by_id(user_id)
+        if not user:
+            raise ValueError(f"User with id {user_id} does not exist")
+        user.avatar_url = avatar_url
+        self.db.commit()
+        self.db.refresh(user)
+        return user
+

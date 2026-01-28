@@ -1,8 +1,11 @@
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.functions import current_user
+
+from .consts import AVATAR_DIR
 from .repository import UserRepository
 from .schemas import UserCreate
 from .models import User
-from .. import security
+from src import security
 
 
 class UserService:
@@ -22,3 +25,6 @@ class UserService:
         if not security.verify_password(password, user.hashed_password):
             return None
         return user
+
+    def set_avatar(self, user_id: int, avatar_url: str) -> User:
+        return self.repo.update_avatar(user_id, avatar_url)

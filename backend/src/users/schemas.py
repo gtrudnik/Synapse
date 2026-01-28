@@ -3,12 +3,13 @@ from datetime import datetime
 from typing import Optional
 
 
-class UserShort(BaseModel):
+class UserRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int
     email: EmailStr
     name: Optional[str]
     created_at: datetime
+    avatar_url: Optional[str]
 
 
 class UserCreate(BaseModel):

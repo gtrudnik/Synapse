@@ -1,0 +1,1 @@
+AVATAR_DIR = "avatars"
