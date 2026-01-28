@@ -3,7 +3,6 @@ import uuid
 from sqlalchemy import Column, ForeignKey, Text, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.sql import func
 from src.database.core import Base
 
 

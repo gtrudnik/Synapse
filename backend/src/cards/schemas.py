@@ -11,7 +11,7 @@ class CardCreate(CardBase):
 
 class CardRead(CardBase):
     id: uuid.UUID
-    user_id: uuid.UUID
+    user_id: int
 
     model_config = {
         "from_attributes": True
