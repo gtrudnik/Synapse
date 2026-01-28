@@ -9,9 +9,9 @@ class CardService:
     def __init__(self, db: Session):
         self.repo = CardRepository(db)
 
-    def create_card(self, user_id: int, card_in: CardCreate) -> Card:
+    def create_card(self, user_id: int, card_data: CardCreate) -> Card:
         return self.repo.create(
-            description=card_in.description,
+            description=card_data.description,
             user_id=user_id,
         )
 

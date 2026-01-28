@@ -10,12 +10,12 @@ router = APIRouter()
 
 @router.post("/", response_model=CardRead)
 def create_card(
-    card_in: CardCreate,
+    card_data: CardCreate,
     user_id: int,
     db: Session = Depends(get_db),
 ):
     service = CardService(db)
-    return service.create_card(user_id=user_id, card_in=card_in)
+    return service.create_card(user_id=user_id, card_data=card_data)
 
 
 @router.get("/", response_model=list[CardRead])
