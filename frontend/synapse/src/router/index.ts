@@ -17,7 +17,7 @@ const routes = [
   { path: '/form', component: FormPage },
   { path: '/match', component: MatchPage },
   { path: '/dialog', component: DialogPage },
-  { path: '/profile', component: DialogPage },
+  { path: '/profile', component: ProfilePage },
 ]
 
 const router = createRouter({
