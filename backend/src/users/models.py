@@ -1,4 +1,5 @@
-from sqlalchemy import Integer, String, DateTime
+from sqlalchemy import Integer, String, DateTime, Enum
+from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import relationship, mapped_column, Mapped
 from sqlalchemy.sql import func
 from src.database.core import Base
@@ -14,8 +15,11 @@ class User(Base):
     created_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )
-
     avatar_url: Mapped[str | None] = mapped_column(String, nullable=True)
+    skills: Mapped[list[String]] = mapped_column(
+        ARRAY(String),
+        default=list,
+    )
 
     cards = relationship(
         "Card",
