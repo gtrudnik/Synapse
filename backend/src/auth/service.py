@@ -41,3 +41,5 @@ class AuthService:
             return int(payload.get("sub"))
         except ValueError:
             return None
+        except jwt.InvalidSignatureError:
+            raise RuntimeError("Invalid signature")
