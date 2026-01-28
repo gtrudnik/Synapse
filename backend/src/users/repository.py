@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from . import security
+from src import security
 from .models import User
 from .schemas import UserCreate
 
@@ -11,6 +11,9 @@ class UserRepository:
 
     def get_by_email(self, email: str) -> User | None:
         return self.db.query(User).filter(User.email == email).first()
+
+    def get_by_id(self, id: int) -> User | None:
+        return self.db.query(User).get(id)
 
     def create(self, user: UserCreate) -> User:
         print(user.password)
@@ -24,7 +27,3 @@ class UserRepository:
         self.db.commit()
         self.db.refresh(db_user)
         return db_user
-
-    @staticmethod
-    def verify_password(plain_password: str, hashed_password: str) -> bool:
-        return security.verify_password(plain_password, hashed_password)

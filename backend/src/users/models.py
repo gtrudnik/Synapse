@@ -3,12 +3,10 @@ from sqlalchemy.orm import relationship, mapped_column, Mapped
 from sqlalchemy.sql import func
 from src.database.core import Base
 
-import uuid
 from pydantic import BaseModel
 
 
-class CardBase(BaseModel):
-    description: str
+
 class User(Base):
     __tablename__ = "users"
 
@@ -17,7 +15,7 @@ class User(Base):
         String, unique=True, index=True, nullable=False
     )
 
-    hashed_password: Mapped[String] = mapped_column(String, nullable=False)
+    hashed_password: Mapped[str] = mapped_column(String, nullable=False)
     name: Mapped[str] = mapped_column(String, nullable=True)
 
     created_at: Mapped[DateTime] = mapped_column(

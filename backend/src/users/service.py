@@ -2,6 +2,8 @@ from sqlalchemy.orm import Session
 from .repository import UserRepository
 from .schemas import UserCreate
 from .models import User
+from .. import security
+
 
 class UserService:
     def __init__(self, db: Session):
@@ -17,6 +19,6 @@ class UserService:
         user = self.repo.get_by_email(email)
         if not user:
             return None
-        if not self.repo.verify_password(password, user.hashed_password):
+        if not security.verify_password(password, user.hashed_password):
             return None
         return user
