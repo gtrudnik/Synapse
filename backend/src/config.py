@@ -14,6 +14,11 @@ class Settings(BaseSettings):
     DATABASE_URL: Optional[str] = None
     DEBUG: bool = False
 
+    ZOOM_API_KEY: str
+    ZOOM_API_SECRET: str
+    ZOOM_USER_ID: str
+    ZOOM_ACCOUNT_ID: str
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
