@@ -16,7 +16,6 @@ class UserRepository:
         return self.db.query(User).get(id)
 
     def create(self, user: UserCreate) -> User:
-        print(user.password)
         hashed_password = security.hash_password(user.password)
         db_user = User(
             email=user.email,
