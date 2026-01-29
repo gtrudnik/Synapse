@@ -8,7 +8,7 @@ from src.users.models import User
 from src.chat.service import ChatService  # для отправки ссылки
 from ..chat.schemas import MessageCreate
 
-router = APIRouter(prefix="/zoom", tags=["zoom"])
+router = APIRouter()
 
 
 @router.post("/", response_model=ZoomMeetingRead)

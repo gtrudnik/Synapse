@@ -34,7 +34,6 @@ class ZoomMeetingService:
         }
         resp = requests.post(url, headers=headers, json=json_data)
         resp.raise_for_status()
-        print(resp.text)
         data = resp.json()
 
         join_url = data["join_url"]

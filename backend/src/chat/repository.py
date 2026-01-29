@@ -2,8 +2,9 @@ import uuid
 
 from sqlalchemy.orm import Session
 
-from .models import ChatMessage
-from .schemas import MessageRead, MessageCreate
+from src.matches.models import UserMatch
+from .models import ChatMessage, ChatConversation
+from .schemas import MessageCreate
 
 
 class ChatRepository:
@@ -34,5 +35,13 @@ class ChatRepository:
                 )
             )
             .order_by(ChatMessage.timestamp)
+            .all()
+        )
+
+    def get_user_chats(self, user_id: int) -> list[type[ChatConversation]]:
+        return (
+            self.db.query(ChatConversation)
+            .join(UserMatch, ChatConversation.match_id == UserMatch.id)
+            .filter((UserMatch.user1_id == user_id) | (UserMatch.user2_id == user_id))
             .all()
         )

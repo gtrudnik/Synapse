@@ -5,7 +5,7 @@ from typing import Dict
 from starlette import status
 
 from src.auth.ws_dependencies import get_current_user_ws
-from src.chat.schemas import MessageCreate, MessageRead, MessageList
+from src.chat.schemas import MessageCreate, MessageRead, MessageList, ConversationList
 from src.chat.service import ChatService
 from src.database.core import get_db
 from src.auth.dependencies import get_current_user
@@ -18,9 +18,7 @@ active_connections: Dict[int, WebSocket] = {}
 
 
 @router.websocket("/ws")
-async def websocket_endpoint(
-    websocket: WebSocket
-):
+async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     try:
         current_user = await get_current_user_ws(websocket)
@@ -38,7 +36,9 @@ async def websocket_endpoint(
 
             chat_service.send_message(
                 message_data=MessageCreate(
-                    sender_id=user_id, receiver_id=data.receiver_id, content=data.content
+                    sender_id=user_id,
+                    receiver_id=data.receiver_id,
+                    content=data.content,
                 ),
             )
 
@@ -54,8 +54,17 @@ async def websocket_endpoint(
 def get_chat_history(
     other_user_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     service = ChatService(db)
     messages = service.get_messages(user1_id=current_user.id, user2_id=other_user_id)
     return messages
+
+
+@router.get("/my", response_model=ConversationList)
+def get_user_chats(
+    db: Session = Depends(get_db), current_user: User = Depends(get_current_user)
+):
+    service = ChatService(db)
+    chats = service.get_chats_for_user(current_user.id)
+    return chats

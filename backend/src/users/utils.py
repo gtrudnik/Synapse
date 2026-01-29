@@ -11,8 +11,6 @@ async def save_avatar(file: UploadFile) -> str:
     filename = f"{uuid.uuid4().hex}.jpg"
     filepath = os.path.join(AVATAR_DIR, filename)
 
-    print(filepath)
-
     with open(filepath, "wb") as f:
         content = await file.read()
         f.write(content)
