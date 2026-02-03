@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import logo from '../assets/synapse.png';
+import { useRouter } from 'vue-router'
 
 const isAuthenticated = ref(true)
+const router = useRouter()
 
 // Функция выхода
 function logout() {
-  alert('Вы вышли из аккаунта')
+  router.push('/')
   isAuthenticated.value = false
 }
 </script>

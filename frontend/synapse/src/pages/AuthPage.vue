@@ -2,14 +2,17 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router'
 import logo from '../assets/synapse.png';
+import { useAuth } from '../stores/auth_store';
 
+const authStore = useAuth();
 const router = useRouter()
 
 const login = ref('');
 const password = ref('');
 
-function onLogin() {
-  alert(`Логин: ${login.value}, Пароль: ${password.value}`);
+async function onLogin() {
+  await authStore.login(login.value, password.value)
+  router.push('/search')
 }
 
 function onRegister() {
@@ -18,8 +21,8 @@ function onRegister() {
 </script>
 
 <template>
-  <div class="d-flex justify-content-center align-items-center" style="margin-top: 10vh">
-    <div class="card p-4" style="width: 100%; max-width: 450px; max-height: 60vh;">
+  <div class="d-flex justify-content-center align-items-center" style="margin-top: 15vh">
+    <div class="card p-4" style="width: 100%; max-width: 450px; max-height: 50vh;">
       <img :src="logo" alt="Logo" class="mb-3" style="width: 100px; height: auto; margin: 0 auto;" />
       <h1 class="text-center mb-4">Synapse</h1>
       <form @submit.prevent="onLogin">
