@@ -18,7 +18,7 @@ function Register() {
 
 <template>
   <div class="d-flex justify-content-center align-items-center" style="margin-top: 15vh">
-    <div class="card p-4" style="width: 100%; max-width: 400px;">
+    <div class="card p-4" style="width: 100%; max-width: 450px; max-height: 60vh;">
       <img :src="logo" alt="Logo" class="mb-3" style="width: 100px; height: auto; margin: 0 auto;" />
       <h1 class="text-center mb-4">Synapse</h1>
       <form @submit.prevent="Register">
