@@ -31,6 +31,9 @@ Swagger located at: ```/docs```, ReDoc at ```/redoc```.
 
 ### Run frontend
 
+
 ```cd frontend/synapse```
+
+```npm i```
 
 ```npm run dev ```
