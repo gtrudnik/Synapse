@@ -38,6 +38,7 @@ const messages = ref<Message[]>([
 ]);
 
 const selectedDialogId = ref<number | null>(null);
+const messageInput = ref<string>("");
 
 function selectDialog(id: number) {
   selectedDialogId.value = id;
@@ -47,10 +48,32 @@ function getMessagesForDialog() {
   if (selectedDialogId.value === null) return [];
   return messages.value.filter(msg => msg.dialogId === selectedDialogId.value);
 }
+
+function sendMessage(dialogId: number) {
+  if (messageInput.value.length == 0) return;
+  const new_message: Message = {
+    id: 123,
+    dialogId: dialogId,
+    text: messageInput.value,
+    sender: "user",
+  }
+  messages.value.push(new_message);
+  messageInput.value = "";
+}
+
+function generateZoomRoom(dialogId: number) {
+  const new_message: Message = {
+    id: 123,
+    dialogId: dialogId,
+    text: "https://app.zoom.us/wc/73232004959/start?ref_from=launch&fromPWA=1&pwd=BrPsH3iFbinRJ5lvybWVbi52LJwXOe.1",
+    sender: "user",
+  }
+  messages.value.push(new_message);
+}
 </script>
 
 <template>
-  <div class="d-flex" style="height: 80vh;">
+  <div class="d-flex" style="height: 90vh;">
     <!-- Список диалогов -->
     <div class="border-end" style="width: 250px; overflow-y: auto;">
       <h5 class="p-3 mb-0">Диалоги</h5>
@@ -73,7 +96,7 @@ function getMessagesForDialog() {
     </div>
 
     <!-- Чат -->
-    <div class="flex-fill p-3" style="background: #f8f9fa; height: 100%; overflow-y: auto;">
+    <div class="chat flex-fill p-3" style="background: #f8f9fa; height: 100%; overflow-y: auto;">
       <h5 v-if="selectedDialogId">
         Диалог с {{ dialogs.find(d => d.id === selectedDialogId)?.name }}
       </h5>
@@ -91,7 +114,22 @@ function getMessagesForDialog() {
           </div>
         </div>
       </div>
+      <form v-if="selectedDialogId" @submit.prevent="sendMessage(selectedDialogId)" method="POST" class="sender-message d-flex align-items-center">
+          <input type="text" id="message" v-model="messageInput"
+            placeholder="Введите ваше сообщение..."
+            class="form-control flex-grow-1" style="max-width: 70%;"/>
+          <div class="d-flex gap-2">
+            <button title="Отправить" type="submit" class="circle-btn btn btn-primary">
+              <i class="bi bi-send"></i>
+            </button>
+            <button title="Создать комнату в зум" type="button"
+              @click="generateZoomRoom(selectedDialogId)" class="circle-btn btn btn-secondary">
+              <i class="bi bi-camera-video"></i>
+            </button>
+          </div>
+      </form>
     </div>
+
   </div>
 </template>
 
@@ -103,8 +141,32 @@ function getMessagesForDialog() {
   height: 28px;
 }
 
+.chat {
+  background: #f8f9fa;
+  height: 100%;
+  overflow-y: auto;
+  position: relative;
+}
+
+.sender-message {
+  position: absolute;
+  bottom: 0;
+  width: 90%;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+
+
 .bg-user2-message {
   background: #dbdbdb;
+}
+
+.circle-btn {
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  border: none;
 }
 
 </style>
